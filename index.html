@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My New Tab Dashboard</title>
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: #f5f7fa;
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: start;
+      padding: 40px 20px;
+    }
+
+    .top-bar {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      padding: 10px 20px;
+      position: fixed;
+      top: 0;
+      background: transparent;
+      z-index: 10;
+    }
+
+    #signin-btn {
+      background: #4285f4;
+      color: white;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 20px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.2s ease;
+      font-family: 'Segoe UI', sans-serif;
+      margin-left: 10px;
+    }
+
+    #signin-btn:hover {
+      background: #357ae8;
+    }
+
+    .settings-btn {
+      background: #ccc;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 10px;
+      cursor: pointer;
+      margin-left: 10px;
+    }
+
+    .container {
+      background: white;
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 600px;
+      margin-top: 80px;
+    }
+
+    h1 {
+      font-size: 28px;
+      margin-bottom: 10px;
+    }
+
+    .tasks {
+      list-style: none;
+      padding: 0;
+    }
+
+    .task-item {
+      padding: 10px;
+      border-bottom: 1px solid #eee;
+    }
+
+    .task-desc {
+      display: block;
+      font-size: 0.9em;
+      color: #666;
+      margin-right: 25px;
+    }
+
+    #keep-btn {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background: #fbbc04;
+      color: white;
+      border: none;
+      padding: 15px 20px;
+      border-radius: 50px;
+      font-size: 16px;
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+      cursor: pointer;
+    }
+
+    #keep-btn:hover {
+      background: #f9a825;
+    }
+
+    .shortcuts {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 20px 0;
+      max-width: 600px;
+    }
+
+    .shortcut {
+      background: white;
+      border-radius: 12px;
+      padding: 10px 16px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      cursor: pointer;
+      text-align: center;
+      text-decoration: none;
+      color: #333;
+      font-weight: 500;
+      transition: background 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .shortcut:hover {
+      background: #e0e0e0;
+    }
+
+    .shortcut img {
+      margin-left: 6px;
+    }
+
+    .shortcut.add {
+      background: #4caf50;
+      color: white;
+    }
+
+    .shortcut.add:hover {
+      background: #45a049;
+    }
+
+    .shortcut .remove-btn {
+      position: absolute;
+      top: -8px;
+      right: -8px;
+      background: #ff4444;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      font-size: 12px;
+      cursor: pointer;
+      display: none;
+    }
+
+    .shortcut:hover .remove-btn {
+      display: block;
+    }
+
+    .settings-panel {
+      position: fixed;
+      top: 0;
+      left: -300px;
+      width: 260px;
+      height: 100vh;
+      background: white;
+      box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+      padding: 20px;
+      transition: left 0.3s ease;
+      direction: ltr;
+      z-index: 5;
+    }
+
+    .settings-panel.open {
+      left: 0;
+    }
+
+    .toggle-switch {
+      display: flex;
+      background: #e0e0e0;
+      border-radius: 20px;
+      padding: 4px;
+      width: 120px;
+      margin-top: 10px;
+    }
+
+    .toggle-option {
+      flex: 1;
+      text-align: center;
+      padding: 8px;
+      border-radius: 16px;
+      cursor: pointer;
+      transition: background 0.2s ease;
+      font-size: 14px;
+      color: #333;
+    }
+
+    .toggle-option.active {
+      background: #4285f4;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <div class="top-bar">
+    <button class="settings-btn" onclick="toggleSettings()">⚙️</button>
+    <button id="signin-btn">🔐 Sign in</button>
+  </div>
+
+  <div class="settings-panel" id="settingsPanel">
+    <h3>Settings</h3>
+    <label>Text direction:</label>
+    <div class="toggle-switch" id="dir-toggle">
+      <div class="toggle-option active" data-dir="rtl" onclick="setDirection('rtl')">RTL</div>
+      <div class="toggle-option" data-dir="ltr" onclick="setDirection('ltr')">LTR</div>
+    </div>
+  </div>
+
+  <div class="container">
+    <h1>🗓️ Your Tasks Today</h1>
+    <ul class="tasks" id="task-list"></ul>
+  </div>
+
+  <div class="shortcuts" id="shortcuts"></div>
+
+  <button id="keep-btn" onclick="window.open('https://keep.google.com', '_blank')">Open Google Keep</button>
+
+  <script>
+    const CLIENT_ID = '171375698400-erqrftseqjqalhf2rv73cpn8vcdorock.apps.googleusercontent.com';
+    let accessToken = null;
+    const signinBtn = document.getElementById('signin-btn');
+    const taskListEl = document.getElementById('task-list');
+    const shortcutsEl = document.getElementById('shortcuts');
+    const settingsPanel = document.getElementById('settingsPanel');
+
+    const tokenClient = google.accounts.oauth2.initTokenClient({
+      client_id: CLIENT_ID,
+      scope: 'https://www.googleapis.com/auth/tasks.readonly',
+      callback: (tokenResponse) => {
+        accessToken = tokenResponse.access_token;
+        localStorage.setItem('accessToken', accessToken);
+        signinBtn.textContent = '🚪 Sign out';
+        listTasks();
+      },
+    });
+
+    const signOut = () => {
+      accessToken = null;
+      localStorage.removeItem('accessToken');
+      taskListEl.innerHTML = '';
+      signinBtn.textContent = '🔐 Sign in';
+    };
+
+    signinBtn.onclick = () => {
+      if (accessToken) {
+        signOut();
+      } else {
+        tokenClient.requestAccessToken();
+      }
+    };
+
+    function toggleSettings() {
+      settingsPanel.classList.toggle('open');
+    }
+
+    document.addEventListener('click', (event) => {
+      if (!settingsPanel.contains(event.target) && !event.target.classList.contains('settings-btn')) {
+        settingsPanel.classList.remove('open');
+      }
+    });
+
+    function setDirection(dir) {
+      document.documentElement.setAttribute('dir', dir);
+      document.querySelectorAll('.toggle-option').forEach(opt => {
+        opt.classList.toggle('active', opt.dataset.dir === dir);
+      });
+    }
+
+    window.onload = () => {
+      const savedToken = localStorage.getItem('accessToken');
+      if (savedToken) {
+        accessToken = savedToken;
+        signinBtn.textContent = '🚪 Sign out';
+        listTasks();
+      }
+      loadShortcuts();
+    };
+
+    async function listTasks() {
+      try {
+        const listsRes = await fetch('https://tasks.googleapis.com/tasks/v1/users/@me/lists', {
+          headers: { Authorization: `Bearer ${accessToken}` },
+        });
+        const listsData = await listsRes.json();
+        const taskListId = listsData.items[0].id;
+
+        const tasksRes = await fetch(`https://tasks.googleapis.com/tasks/v1/lists/${taskListId}/tasks`, {
+          headers: { Authorization: `Bearer ${accessToken}` },
+        });
+        const tasksData = await tasksRes.json();
+
+        taskListEl.innerHTML = '';
+        (tasksData.items || []).forEach((task) => {
+          if (!task.hidden) {
+            const li = document.createElement('li');
+            li.className = 'task-item';
+            const checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            checkbox.checked = task.status === 'completed';
+            const label = document.createElement('span');
+            label.textContent = task.title;
+            li.appendChild(checkbox);
+            li.appendChild(label);
+            if (task.notes) {
+              const desc = document.createElement('span');
+              desc.className = 'task-desc';
+              desc.textContent = task.notes;
+              li.appendChild(desc);
+            }
+            taskListEl.appendChild(li);
+          }
+        });
+      } catch (err) {
+        console.error('Error loading tasks:', err);
+      }
+    }
+
+    function loadShortcuts() {
+      const defaultShortcuts = [
+        { name: 'Google', url: 'https://www.google.com' },
+        { name: 'YouTube', url: 'https://youtube.com' },
+        { name: 'Gmail', url: 'https://mail.google.com' },
+        { name: 'Calendar', url: 'https://calendar.google.com' },
+      ];
+      const saved = JSON.parse(localStorage.getItem('shortcuts')) || defaultShortcuts;
+      shortcutsEl.innerHTML = '';
+      saved.forEach(sc => {
+        const a = document.createElement('a');
+        a.href = sc.url;
+        a.target = '_blank';
+        a.className = 'shortcut';
+        const favicon = document.createElement('img');
+        favicon.src = 'https://www.google.com/s2/favicons?sz=32&domain_url=' + sc.url;
+        favicon.style.width = '16px';
+        favicon.style.height = '16px';
+        favicon.style.marginInlineStart = '6px';
+        favicon.style.verticalAlign = 'middle';
+        const text = document.createElement('span');
+        text.textContent = sc.name;
+        a.appendChild(text);
+        a.appendChild(favicon);
+        const removeBtn = document.createElement('button');
+        removeBtn.className = 'remove-btn';
+        removeBtn.textContent = '×';
+        removeBtn.onclick = (e) => {
+          e.preventDefault();
+          removeShortcut(sc.url);
+        };
+        a.appendChild(removeBtn);
+        shortcutsEl.appendChild(a);
+      });
+
+      const addShortcut = document.createElement('div');
+      addShortcut.className = 'shortcut add';
+      addShortcut.textContent = '+';
+      addShortcut.onclick = () => {
+        const name = prompt('Enter shortcut name:');
+        let url = prompt('Enter shortcut URL:');
+        if (name && url) {
+          if (!url.startsWith('http')) url = 'https://' + url;
+          addNewShortcut(name, url);
+        }
+      };
+      shortcutsEl.appendChild(addShortcut);
+    }
+
+    function addNewShortcut(name, url) {
+      const shortcuts = JSON.parse(localStorage.getItem('shortcuts')) || [];
+      shortcuts.push({ name, url });
+      localStorage.setItem('shortcuts', JSON.stringify(shortcuts));
+      loadShortcuts();
+    }
+
+    function removeShortcut(url) {
+      const shortcuts = JSON.parse(localStorage.getItem('shortcuts')) || [];
+      const updated = shortcuts.filter(sc => sc.url !== url);
+      localStorage.setItem('shortcuts', JSON.stringify(updated));
+      loadShortcuts();
+    }
+  </script>
+</body>
+</html>
