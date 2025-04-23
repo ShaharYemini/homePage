@@ -1,0 +1,212 @@
+/* Base page style */
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: #f5f7fa;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: start;
+    padding: 40px 20px;
+  }
+  
+  /* Top bar */
+  .top-bar {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+    position: fixed;
+    top: 0;
+    background: transparent;
+    z-index: 10;
+    margin-right: 20px;
+  }
+  
+  /* Sign-in button */
+  #signin-btn {
+    background: #4285f4;
+    color: white;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s ease;
+    margin-left: 10px;
+  }
+  
+  #signin-btn:hover {
+    background: #357ae8;
+  }
+  
+  /* Settings button */
+  .settings-btn {
+    background: none;        
+    border: none;           
+    padding: 0;              
+    cursor: pointer;        
+    margin-left: 10px;
+    font-size: 30px;         
+  }
+  
+  
+  /* Task List container */
+  .tasks-container {
+    background: white;
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 600px;
+    margin-top: 80px;
+  }
+  
+  h1 {
+    font-size: 28px;
+    margin-bottom: 10px;
+  }
+  
+  /* Tasks list */
+  .tasks {
+    list-style: none;
+    padding: 0;
+    max-height: 300px; /* Set your desired max height */
+    overflow-y: auto;  /* Enables vertical scrolling when content overflows */
+  }
+
+  .task-item {
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+    align-items: center;
+  }
+  
+  .task-item.completed span {
+    text-decoration: line-through; /* Strikes through the task text */
+    color: #888; /* Optional: You can make the text color lighter */
+  }
+  
+  .task-item.completed {
+    opacity: 0.6; /* Optional: Makes completed tasks look faded */
+  }
+  
+  .task-item input[type="checkbox"] {
+    margin-right: 10px;
+  }
+  
+  .task-desc {
+    display: block;
+    font-size: 0.9em;
+    color: #666;
+    margin-right: 25px;
+  }
+  
+  /* Shortcut links */
+  .shortcuts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 20px 0;
+    max-width: 600px;
+  }
+  
+  .shortcut {
+    background: white;
+    border-radius: 12px;
+    padding: 10px 16px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    color: #333;
+    font-weight: 500;
+    transition: background 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+  
+  .shortcut:hover {
+    background: #e0e0e0;
+  }
+  
+  .shortcut img {
+    margin-left: 6px;
+  }
+  
+  .shortcut.add {
+    background: #4caf50;
+    color: white;
+  }
+  
+  .shortcut.add:hover {
+    background: #45a049;
+  }
+  
+  .shortcut .remove-btn {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background: #ff4444;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    font-size: 12px;
+    cursor: pointer;
+    display: none;
+  }
+  
+  .shortcut:hover .remove-btn {
+    display: block;
+  }
+  
+  /* Settings panel */
+  .settings-panel {
+    position: fixed;
+    top: 0;
+    left: -300px;
+    width: 260px;
+    height: 100vh;
+    background: white;
+    box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+    padding: 20px;
+    transition: left 0.3s ease;
+    direction: ltr;
+    z-index: 5;
+  }
+  
+  .settings-panel.open {
+    left: 0;
+  }
+  
+  /* RTL/LTR toggle */
+  .toggle-switch {
+    display: flex;
+    background: #e0e0e0;
+    border-radius: 20px;
+    padding: 4px;
+    width: 120px;
+    margin-top: 10px;
+  }
+  
+  .toggle-option {
+    flex: 1;
+    text-align: center;
+    padding: 8px;
+    border-radius: 16px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+    font-size: 14px;
+    color: #333;
+  }
+  
+  .toggle-option.active {
+    background: #4285f4;
+    color: white;
+  }
+  
