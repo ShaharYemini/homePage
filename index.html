@@ -21,12 +21,32 @@
       <div class="toggle-option active" data-dir="rtl" onclick="setDirection('rtl')">RTL</div>
       <div class="toggle-option" data-dir="ltr" onclick="setDirection('ltr')">LTR</div>
     </div>
+    <label>Theme:</label>
+    <div class="toggle-switch" id="theme-toggle">
+      <div class="toggle-option active" data-dir="bright" onclick="setColorTheme('bright')">Bright</div>
+      <div class="toggle-option" data-dir="warm" onclick="setColorTheme('warm')">Warm</div>
+      <div class="toggle-option" data-dir="blossom" onclick="setColorTheme('blossom')">Blossom</div>
+      <div class="toggle-option" data-dir="dark" onclick="setColorTheme('dark')">Dark</div>
+    </div>
+    <label>Shortcuts:</label>
+    <div class="toggle-switch" id="icon-size-toggle">
+      <div class="toggle-option active"data-dir="large" onclick="setShortcutIcon('large')">LARGE</div>
+      <div class="toggle-option" data-dir="small" onclick="setShortcutIcon('small')">SMALL</div>
+      <div class="toggle-option" data-dir="hidden" onclick="setShortcutIcon('hidden')">HIDDEN</div>
+    </div>
   </div>
 
   <!-- Task list container -->
   <div class="tasks-container">
-    <h1>🗓️ Your Tasks Today</h1>
+    <h1>🗓️ My Tasks Today</h1>
     <ul class="tasks" id="task-list"></ul>
+    <button id="show-new-task-form">+ Add New Task</button>
+    <div class="new-task-form">
+      <input id="new-task-title" type="text" placeholder="כותרת">
+      <textarea id="new-task-notes" placeholder="הערות"></textarea>
+      <button id="add-task-btn">Add Task</button>
+    </div>
+    
   </div>
 
   <!-- Quick links section -->
