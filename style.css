@@ -20,7 +20,13 @@ body {
 }
 
 button {
+  background: var(--accent-color);
+  color: var(--text-color);
   font-family: 'Segoe UI', sans-serif;
+}
+
+button:hover {
+  background: var(--special-color);
 }
 
 /* Top bar */
@@ -38,8 +44,6 @@ button {
 
 /* Sign-in button */
 #signin-btn {
-  background: var(--accent-color);
-  color: var(--text-color);
   border: none;
   padding: 8px 14px;
   border-radius: 20px;
@@ -48,10 +52,6 @@ button {
   cursor: pointer;
   transition: background 0.2s ease;
   margin-left: 10px;
-}
-
-#signin-btn:hover {
-  background: var(--special-color);
 }
 
 /* Settings button */
@@ -64,19 +64,25 @@ button {
   font-size: 30px;
 }
 
+.settings-btn:hover {
+  background: none;
+}
+
 
 /* Task List container */
 .tasks-container {
   background: var(--items-color);
-  padding: 30px;
+  padding: 30px 10px;
   border-radius: 20px;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
   width: 100%;
   max-width: 600px;
   margin-top: 80px;
+  overflow-x: visible;
 }
 
 h1 {
+  text-align: center;
   font-size: 28px;
   margin-bottom: 10px;
 }
@@ -84,7 +90,7 @@ h1 {
 /* Tasks list */
 .tasks {
   list-style: none;
-  padding: 0;
+  padding: 0 30px;
   max-height: 300px;
   /* Set your desired max height */
   overflow-y: auto;
@@ -99,7 +105,7 @@ h1 {
 .task-item {
   padding: 10px;
   border-bottom: 1px solid var(--items-color);
-  align-items: center;
+  position: relative;
 }
 
 .task-item.completed span {
@@ -121,8 +127,90 @@ h1 {
 .task-desc {
   display: block;
   font-size: 0.9em;
-  color: #666;
+  color: var(--text-color);
   margin-right: 25px;
+}
+
+/* Inline edit input styling */
+.edit-input {
+  border: none;
+  background: transparent;
+  font-size: 1em;
+  color: inherit;
+  width: 100%;
+  outline: none;
+  padding: 2px 0;
+  border-bottom: 1px dashed var(--accent-color);
+}
+
+.notes-input {
+  font-size: 0.9em;
+  color: var(--text-color);
+}
+
+/* Edit button */
+.edit-btn {
+  position: absolute;
+  top: 6px;
+  right: -25px;
+  border: none;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  font-size: 20px;
+  cursor: pointer;
+  z-index: 100;
+  transition: background 0.2s ease;
+}
+
+.task-item:hover .edit-btn {
+  display: flex;
+}
+
+/* new task form */
+#show-new-task-form {
+  margin-top: 10px;
+  color: var(--text-color);
+  /* was white */
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.new-task-form {
+  display: none;
+  margin-top: 10px;
+  padding: 10px;
+  flex-direction: column;
+  gap: 8px;
+  background-color: var(--bg-color);
+  border-radius: 10px;
+}
+
+.new-task-form input,
+.new-task-form textarea {
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid var(--special-color);
+  font-size: 1em;
+  width: 100%;
+  box-sizing: border-box;
+  background-color: var(--items-color);
+  color: var(--text-color);
+}
+
+.new-task-form button {
+  align-self: flex-end;
+  padding: 8px 16px;
+  color: var(--text-color);
+  /* was white */
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
 }
 
 /* Shortcut links */
@@ -184,21 +272,17 @@ h1 {
   color: var(--text-color);
 }
 
-.shortcut.add:hover {
-  background: var(--special-color);
-}
-
 .shortcut .remove-btn {
   position: absolute;
-  top: -8px;
-  right: -8px;
-  background: #ff4444;
-  color: white;
+  top: -15px;
+  right: -15px;
+  background: none;
   border: none;
   border-radius: 50%;
   width: 20px;
   height: 20px;
-  font-size: 12px;
+  font-size: 20px;
+  text-align: center;
   cursor: pointer;
   display: none;
 }
@@ -226,14 +310,14 @@ h1 {
   left: 0;
 }
 
-/* RTL/LTR toggle */
+/* settings toggles */
 .toggle-switch {
   display: flex;
   background: var(--bg-color);
   border-radius: 20px;
   padding: 4px;
   width: 100%;
-  margin-top: 10px;
+  margin: 10px 0;
 }
 
 .toggle-option {
@@ -252,54 +336,28 @@ h1 {
   color: var(--bg-color);
 }
 
-#show-new-task-form {
-  margin-top: 10px;
-  background: var(--accent-color);
-  color: var(--text-color);
-  /* was white */
-  border: none;
-  padding: 8px 16px;
-  border-radius: 6px;
-  cursor: pointer;
-}
-
-#show-new-task-form:hover {
-  background: var(--special-color);
-}
-
-.new-task-form {
-  display: none;
-  margin-top: 10px;
-  padding: 10px;
-  flex-direction: column;
-  gap: 8px;
-  background-color: var(--bg-color);
-  border-radius: 10px;
-}
-
-.new-task-form input,
-.new-task-form textarea {
+/* keyboard shortcuts settings */
+.keyboard-shortcut-container {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  margin: 5px 0;
   padding: 8px;
+}
+
+.keyboard-shortcut-container.disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.keyboard-shortcut-container input {
   border-radius: 6px;
-  border: 1px solid var(--border-color, #ccc);
+  border: 1px solid var(--special-color);
+  font-family: 'Segoe UI', sans-serif;
   font-size: 1em;
-  width: 100%;
+  width: 2em;
   box-sizing: border-box;
   background-color: var(--items-color);
   color: var(--text-color);
-}
-
-.new-task-form button {
-  align-self: flex-end;
-  padding: 8px 16px;
-  background: var(--accent-color);
-  color: var(--text-color);
-  /* was white */
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-}
-
-.new-task-form button:hover {
-  background: var(--special-color);
+  text-align: center;
 }

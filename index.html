@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>My New Tab Dashboard</title>
+  <title>Custom New Tab</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -28,20 +28,47 @@
       <div class="toggle-option" data-dir="blossom" onclick="setColorTheme('blossom')">Blossom</div>
       <div class="toggle-option" data-dir="dark" onclick="setColorTheme('dark')">Dark</div>
     </div>
-    <label>Shortcuts:</label>
+    <label>Shortcut Icons:</label>
     <div class="toggle-switch" id="icon-size-toggle">
       <div class="toggle-option active"data-dir="large" onclick="setShortcutIcon('large')">LARGE</div>
       <div class="toggle-option" data-dir="small" onclick="setShortcutIcon('small')">SMALL</div>
       <div class="toggle-option" data-dir="hidden" onclick="setShortcutIcon('hidden')">HIDDEN</div>
     </div>
+
+    <label>Filter Tasks:</label>
+    <div class="toggle-switch" id="time-filter-toggle">
+      <div class="toggle-option active" data-dir="24h" onclick="setTimeFilterTasks('24h')">24h</div>
+      <div class="toggle-option" data-dir="7d" onclick="setTimeFilterTasks('7d')">7d</div>
+      <div class="toggle-option" data-dir="30d" onclick="setTimeFilterTasks('30d')">30d</div>
+    </div>
+
+    <label>Keyboard Shortcuts:</label>
+    <div class="toggle-switch" id="keyboard-shortcuts-toggle">
+      <div class="toggle-option active" data-dir="enabled" onclick="setKeyboardShortcutsEnabled('enabled')">Enabled</div>
+      <div class="toggle-option" data-dir="disabled" onclick="setKeyboardShortcutsEnabled('disabled')">Disabled</div>
+    </div>
+    <div class="keyboard-shortcut-container">
+      <span>New Task -</span>
+      <input type="text" id="new-task-shortcut-input" maxlength="1"/>
+    </div>
+    <div class="keyboard-shortcut-container">
+      <span>Switch Theme -</span>
+      <input type="text" id="theme-shortcut-input" maxlength="1"/>
+    </div>
+    <div class="keyboard-shortcut-container">
+      <span>Open Settings -</span>
+      <input type="text" id="settings-shortcut-input" maxlength="1"/>
+    </div>
+    
+
   </div>
 
   <!-- Task list container -->
   <div class="tasks-container">
     <h1>🗓️ My Tasks Today</h1>
     <ul class="tasks" id="task-list"></ul>
-    <button id="show-new-task-form">+ Add New Task</button>
-    <div class="new-task-form">
+    <button id="show-new-task-form">📝 Add New Task</button>
+    <div class="new-task-form" display="none">
       <input id="new-task-title" type="text" placeholder="כותרת">
       <textarea id="new-task-notes" placeholder="הערות"></textarea>
       <button id="add-task-btn">Add Task</button>
