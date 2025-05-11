@@ -3,81 +3,120 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Custom New Tab</title>
+  <title data-he="דף הבית" data-en="Custom New Tab"></title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <!-- Top bar with settings and sign-in button -->
   <div class="top-bar">
     <button class="settings-btn" onclick="toggleSettings()">⚙️</button>
-    <button id="signin-btn">🔐 Sign in</button>
+    <button id="signin-btn" data-he="היכנס לחשבון 🔐" data-en="🔐 Sign in"></button>
+    <div id="add-shortcut-form" class="hidden">
+      <input type="text" id="shortcut-name" placeholder="Shortcut Name" required />
+      <input type="text" id="shortcut-url" placeholder="Shortcut URL" required />
+      <button id="add-shortcut-btn" onclick="addShortcut()" data-he="הוספה" data-en="Add"></button>
+    </div>
+    <button id="show-add-shortcut-form" onclick="addShortcutForm()" data-he="הוסף קיצור דרך ➕" data-en="➕ Add Shortcut"></button>
   </div>
 
   <!-- Slide-out settings panel -->
   <div class="settings-panel" id="settingsPanel">
-    <h3>Settings</h3>
-    <label>Text direction:</label>
+    <h3 data-he="הגדרות" data-en="Settings"></h3>
+
+    <label data-he="כיוון טקסט:" data-en="Text direction:"></label>
     <div class="toggle-switch" id="dir-toggle">
       <div class="toggle-option active" data-dir="rtl" onclick="setDirection('rtl')">RTL</div>
       <div class="toggle-option" data-dir="ltr" onclick="setDirection('ltr')">LTR</div>
     </div>
-    <label>Theme:</label>
+
+    <label data-he="ערכת צבעים:" data-en="Theme:"></label>
     <div class="toggle-switch" id="theme-toggle">
-      <div class="toggle-option active" data-dir="bright" onclick="setColorTheme('bright')">Bright</div>
-      <div class="toggle-option" data-dir="warm" onclick="setColorTheme('warm')">Warm</div>
-      <div class="toggle-option" data-dir="blossom" onclick="setColorTheme('blossom')">Blossom</div>
-      <div class="toggle-option" data-dir="dark" onclick="setColorTheme('dark')">Dark</div>
+      <div class="toggle-option active" data-dir="bright" onclick="setColorTheme('bright')" data-he="בהיר" data-en="Bright"></div>
+      <div class="toggle-option" data-dir="warm" onclick="setColorTheme('warm')" data-he="חמים" data-en="Warm"></div>
+      <div class="toggle-option" data-dir="blossom" onclick="setColorTheme('blossom')" data-he="פריחה" data-en="Blossom"></div>
+      <div class="toggle-option" data-dir="dark" onclick="setColorTheme('dark')" data-he="לילה" data-en="Dark"></div>
     </div>
-    <label>Shortcut Icons:</label>
+
+    <label data-he="סמלים לקיצורי דרך:" data-en="Shortcut Icons:"></label>
     <div class="toggle-switch" id="icon-size-toggle">
-      <div class="toggle-option active"data-dir="large" onclick="setShortcutIcon('large')">LARGE</div>
-      <div class="toggle-option" data-dir="small" onclick="setShortcutIcon('small')">SMALL</div>
-      <div class="toggle-option" data-dir="hidden" onclick="setShortcutIcon('hidden')">HIDDEN</div>
+      <div class="toggle-option active"data-dir="large" onclick="setShortcutIcon('large')" data-he="גדולים" data-en="LARGE"></div>
+      <div class="toggle-option" data-dir="small" onclick="setShortcutIcon('small')" data-he="קטנים" data-en="SMALL"></div>
+      <div class="toggle-option" data-dir="hidden" onclick="setShortcutIcon('hidden')" data-he="מוסתרים" data-en="HIDDEN"></div>
     </div>
 
-    <label>Filter Tasks:</label>
+    <label data-he="סנן משימות:" data-en="Filter Tasks:"></label>
     <div class="toggle-switch" id="time-filter-toggle">
-      <div class="toggle-option active" data-dir="24h" onclick="setTimeFilterTasks('24h')">24h</div>
-      <div class="toggle-option" data-dir="7d" onclick="setTimeFilterTasks('7d')">7d</div>
-      <div class="toggle-option" data-dir="30d" onclick="setTimeFilterTasks('30d')">30d</div>
+      <div class="toggle-option active" data-dir="24h" onclick="setTimeFilterTasks('24h')" data-he="יום" data-en="24h"></div>
+      <div class="toggle-option" data-dir="7d" onclick="setTimeFilterTasks('7d')" data-he="שבוע" data-en="7d"></div>
+      <div class="toggle-option" data-dir="30d" onclick="setTimeFilterTasks('30d')" data-he="חודש" data-en="30d"></div>
     </div>
 
-    <label>Keyboard Shortcuts:</label>
+    <label data-he="שפה:" data-en="Language:"></label>
+    <div class="toggle-switch" id="language-toggle">
+      <div class="toggle-option active" data-dir="he" onclick="setLanguage('he')">עברית</div>
+      <div class="toggle-option" data-dir="en" onclick="setLanguage('en')">English</div>
+    </div>
+
+    <label data-he="קיצורי מקשים:" data-en="Keyboard Shortcuts:"></label>
     <div class="toggle-switch" id="keyboard-shortcuts-toggle">
-      <div class="toggle-option active" data-dir="enabled" onclick="setKeyboardShortcutsEnabled('enabled')">Enabled</div>
-      <div class="toggle-option" data-dir="disabled" onclick="setKeyboardShortcutsEnabled('disabled')">Disabled</div>
+      <div class="toggle-option active" data-dir="enabled" onclick="setKeyboardShortcutsEnabled('enabled')" data-he="פעיל" data-en="Enabled"></div>
+      <div class="toggle-option" data-dir="disabled" onclick="setKeyboardShortcutsEnabled('disabled')" data-he="מושבת" data-en="Disabled"></div>
     </div>
     <div class="keyboard-shortcut-container">
-      <span>New Task -</span>
+      <span data-he="צור משימה -" data-en="New Task -"></span>
       <input type="text" id="new-task-shortcut-input" maxlength="1"/>
     </div>
     <div class="keyboard-shortcut-container">
-      <span>Switch Theme -</span>
+      <span data-he="שלח משימה -" data-en="Submit Task -"></span>
+      <input type="text" id="submit-task-shortcut-input" maxlength="1"/>
+    </div>
+    <div class="keyboard-shortcut-container">
+      <span data-he="החלף ערכת צבעים -" data-en="Switch Theme -"></span>
       <input type="text" id="theme-shortcut-input" maxlength="1"/>
     </div>
     <div class="keyboard-shortcut-container">
-      <span>Open Settings -</span>
+      <span data-he="פתח הגדרות -" data-en="Open Settings -"></span>
       <input type="text" id="settings-shortcut-input" maxlength="1"/>
     </div>
-    
+
+    <h3 data-he="אודות" data-en="About"></h3>
+    <p data-he="דף הבית הזה נוצר בשביל הנוחות, בעיקר כדי לנצל את המקום הריק בכרטיסיה החדשה של כרום." data-en="This homepage was created for convenience, mainly to utilize the empty space in Chrome's new tab."></p>
+    <label data-he="לדיווח תקלות או הצעות שיפור, אנא מלאו את הטופס הבא:" data-en="For bug reports or improvement suggestions, please fill out the following form:"></label>
+    <a href="https://forms.gle/WVxDscmxrHZ55x1T9" target="_blank" data-he="דיווח על באגים" data-en="Report Bugs"></a></br>
+    <label data-he="קוד המקור זמין ב-GitHub:" data-en="The source code is available on GitHub:"></label>
+    <a href="https://github.com/ShaharYemini/homePage" target="_blank" data-he="GitHub" data-en="GitHub"></a></br>
+    <label data-he="גרסה 2.0" data-en="Version 2.0"></label>
+
 
   </div>
 
   <!-- Task list container -->
   <div class="tasks-container">
-    <h1>🗓️ My Tasks Today</h1>
+    <h1 data-he="משימות להיום 🗓️" data-en="🗓️ My Tasks Today"></h1>
     <ul class="tasks" id="task-list"></ul>
-    <button id="show-new-task-form">📝 Add New Task</button>
+    <button id="show-new-task-form" data-he="הוסף משימה חדשה 📝" data-en="📝 Add New Task"></button>
     <div class="new-task-form" display="none">
-      <input id="new-task-title" type="text" placeholder="כותרת">
-      <textarea id="new-task-notes" placeholder="הערות"></textarea>
-      <button id="add-task-btn">Add Task</button>
+      <input id="new-task-title" type="text" data-he="כותרת" data-en="title" placeholder="כותרת">
+      <textarea id="new-task-notes" data-he="הערות" data-en="notes" aria-label="הערות"></textarea>
+      <button id="add-task-btn" data-he="צור משימה" data-en="Add Task"></button>
     </div>
     
   </div>
 
   <!-- Quick links section -->
   <div class="shortcuts" id="shortcuts"></div>
+
+  <!-- Templates -->
+  <template id="task-template">
+    <li class="task-item">
+      <input class="task-checkbox" type="checkbox">
+      <span class="task-title"></span>
+      <span class="task-desc"></span>
+      <input type="text" class="edit-title">
+      <textarea class="edit-notes"></textarea>
+      <button class="edit-btn">✏️</button>
+    </li>
+  </template>
 
   <!-- JS Scripts -->
   <script src="script.js"></script>
