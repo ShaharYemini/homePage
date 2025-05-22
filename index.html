@@ -1,55 +1,67 @@
 <!DOCTYPE html>
 <html lang="en" dir="rtl">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title data-he="דף הבית" data-en="Custom New Tab"></title>
+  <link rel="icon" href="images/house_icon.png" type="image/png">
   <link rel="stylesheet" href="style.css" />
 </head>
+
 <body>
   <!-- Top bar with settings and sign-in button -->
   <div class="top-bar">
     <button class="settings-btn" onclick="toggleSettings()">⚙️</button>
-    <button id="signin-btn" data-he="היכנס לחשבון 🔐" data-en="🔐 Sign in"></button>
+    <button id="signin-btn" onclick="handleSignBtnClick()" data-he="היכנס לחשבון 🔐" data-en="🔐 Sign in"></button>
     <div id="add-shortcut-form" class="hidden">
-      <input type="text" id="shortcut-name" placeholder="Shortcut Name" required />
-      <input type="text" id="shortcut-url" placeholder="Shortcut URL" required />
+      <input type="text" id="shortcut-name" data-he="שם האתר" data-en="Shortcut Name" placeholder="Shortcut Name"
+        required />
+      <input type="text" id="shortcut-url" data-he="כתובת האתר" data-en="Shortcut URL" placeholder="Shortcut URL"
+        required />
       <button id="add-shortcut-btn" onclick="addShortcut()" data-he="הוספה" data-en="Add"></button>
     </div>
-    <button id="show-add-shortcut-form" onclick="addShortcutForm()" data-he="הוסף קיצור דרך ➕" data-en="➕ Add Shortcut"></button>
   </div>
+
+  <!-- Custom search bar -->
+  <input id="search-bar" class="hidden" data-he="חפש או הכנס כתובת" data-en="Search or type a URL"
+    placeholder="Search or type a URL" />
+  <div id="overlay" class="hidden"></div>
 
   <!-- Slide-out settings panel -->
   <div class="settings-panel" id="settingsPanel">
     <h3 data-he="הגדרות" data-en="Settings"></h3>
 
-    <label data-he="כיוון טקסט:" data-en="Text direction:"></label>
-    <div class="toggle-switch" id="dir-toggle">
-      <div class="toggle-option active" data-dir="rtl" onclick="setDirection('rtl')">RTL</div>
-      <div class="toggle-option" data-dir="ltr" onclick="setDirection('ltr')">LTR</div>
-    </div>
-
     <label data-he="ערכת צבעים:" data-en="Theme:"></label>
     <div class="toggle-switch" id="theme-toggle">
-      <div class="toggle-option active" data-dir="bright" onclick="setColorTheme('bright')" data-he="בהיר" data-en="Bright"></div>
+      <div class="toggle-option active" data-dir="bright" onclick="setColorTheme('bright')" data-he="בהיר"
+        data-en="Bright"></div>
       <div class="toggle-option" data-dir="warm" onclick="setColorTheme('warm')" data-he="חמים" data-en="Warm"></div>
-      <div class="toggle-option" data-dir="blossom" onclick="setColorTheme('blossom')" data-he="פריחה" data-en="Blossom"></div>
+      <div class="toggle-option" data-dir="blossom" onclick="setColorTheme('blossom')" data-he="פריחה"
+        data-en="Blossom"></div>
       <div class="toggle-option" data-dir="dark" onclick="setColorTheme('dark')" data-he="לילה" data-en="Dark"></div>
     </div>
 
     <label data-he="סמלים לקיצורי דרך:" data-en="Shortcut Icons:"></label>
     <div class="toggle-switch" id="icon-size-toggle">
-      <div class="toggle-option active"data-dir="large" onclick="setShortcutIcon('large')" data-he="גדולים" data-en="LARGE"></div>
-      <div class="toggle-option" data-dir="small" onclick="setShortcutIcon('small')" data-he="קטנים" data-en="SMALL"></div>
-      <div class="toggle-option" data-dir="hidden" onclick="setShortcutIcon('hidden')" data-he="מוסתרים" data-en="HIDDEN"></div>
+      <div class="toggle-option active" data-dir="large" onclick="setShortcutIcon('large')" data-he="גדולים"
+        data-en="LARGE"></div>
+      <div class="toggle-option" data-dir="small" onclick="setShortcutIcon('small')" data-he="קטנים" data-en="SMALL">
+      </div>
+      <div class="toggle-option" data-dir="hidden" onclick="setShortcutIcon('hidden')" data-he="מוסתרים"
+        data-en="HIDDEN"></div>
     </div>
 
     <label data-he="סנן משימות:" data-en="Filter Tasks:"></label>
     <div class="toggle-switch" id="time-filter-toggle">
-      <div class="toggle-option active" data-dir="24h" onclick="setTimeFilterTasks('24h')" data-he="יום" data-en="24h"></div>
+      <div class="toggle-option active" data-dir="24h" onclick="setTimeFilterTasks('24h')" data-he="יום" data-en="24h">
+      </div>
       <div class="toggle-option" data-dir="7d" onclick="setTimeFilterTasks('7d')" data-he="שבוע" data-en="7d"></div>
       <div class="toggle-option" data-dir="30d" onclick="setTimeFilterTasks('30d')" data-he="חודש" data-en="30d"></div>
     </div>
+
+    <label id="lists-toggle-switch-2-label" data-he="הצג רשימה:" data-en="Show List:"></label>
+    <div class="toggle-switch" id="lists-toggle-switch-2"></div>
 
     <label data-he="שפה:" data-en="Language:"></label>
     <div class="toggle-switch" id="language-toggle">
@@ -57,50 +69,121 @@
       <div class="toggle-option" data-dir="en" onclick="setLanguage('en')">English</div>
     </div>
 
+    <label data-he="כיוון טקסט:" data-en="Text direction:"></label>
+    <div class="toggle-switch" id="dir-toggle">
+      <div class="toggle-option active" data-dir="rtl" onclick="setDirection('rtl')">RTL</div>
+      <div class="toggle-option" data-dir="ltr" onclick="setDirection('ltr')">LTR</div>
+    </div>
+
+    <label data-he="תוספי תצוגה:" data-en="Extension Settings:"></label>
+    <div class="checkbox-container">
+      <label class="custom-checkbox">
+        <input type="checkbox" id="show-list-toggle" onchange="setListToggleDisplay()" />
+        <span class="checkmark"></span>
+        <span data-he="הצג רשימות בדף הבית" data-en="Show Lists on Homepage"></span>
+      </label>
+      <label class="custom-checkbox">
+        <input type="checkbox" id="show-task-counter" onchange="setTaskCounterVisibiity()" />
+        <span class="checkmark"></span>
+        <span data-he="הצג מספר משימות" data-en="Show Task Counter"></span>
+      </label>
+      <label class="custom-checkbox">
+        <input type="checkbox" id="show-encouragement-sentence" onchange="setEncouragementSentenceVisibility()" />
+        <span class="checkmark"></span>
+        <span data-he="הצג משפט עידוד" data-en="Show Encouragement Sentence"></span>
+      </label>
+      <label class="custom-checkbox">
+        <input type="checkbox" id="show-bg-chart" onchange="setBGChartVisibility()" />
+        <span class="checkmark"></span>
+        <span data-he="הצג גרף ברקע" data-en="Show Chart in the Background"></span>
+      </label>
+    </div>
+
+
     <label data-he="קיצורי מקשים:" data-en="Keyboard Shortcuts:"></label>
     <div class="toggle-switch" id="keyboard-shortcuts-toggle">
-      <div class="toggle-option active" data-dir="enabled" onclick="setKeyboardShortcutsEnabled('enabled')" data-he="פעיל" data-en="Enabled"></div>
-      <div class="toggle-option" data-dir="disabled" onclick="setKeyboardShortcutsEnabled('disabled')" data-he="מושבת" data-en="Disabled"></div>
+      <div class="toggle-option active" data-dir="enabled" onclick="setKeyboardShortcutsEnabled('enabled')"
+        data-he="פעיל" data-en="Enabled"></div>
+      <div class="toggle-option" data-dir="disabled" onclick="setKeyboardShortcutsEnabled('disabled')" data-he="מושבת"
+        data-en="Disabled"></div>
     </div>
     <div class="keyboard-shortcut-container">
       <span data-he="צור משימה -" data-en="New Task -"></span>
-      <input type="text" id="new-task-shortcut-input" maxlength="1"/>
+      <input type="text" id="new-task-shortcut-input" maxlength="1" />
     </div>
     <div class="keyboard-shortcut-container">
       <span data-he="שלח משימה -" data-en="Submit Task -"></span>
-      <input type="text" id="submit-task-shortcut-input" maxlength="1"/>
+      <input type="text" id="submit-task-shortcut-input" maxlength="1" />
     </div>
     <div class="keyboard-shortcut-container">
       <span data-he="החלף ערכת צבעים -" data-en="Switch Theme -"></span>
-      <input type="text" id="theme-shortcut-input" maxlength="1"/>
+      <input type="text" id="theme-shortcut-input" maxlength="1" />
     </div>
     <div class="keyboard-shortcut-container">
       <span data-he="פתח הגדרות -" data-en="Open Settings -"></span>
-      <input type="text" id="settings-shortcut-input" maxlength="1"/>
+      <input type="text" id="settings-shortcut-input" maxlength="1" />
+    </div>
+    <div class="keyboard-shortcut-container">
+      <span data-he="החלף בין תצוגות - " data-en="Switch Views -"></span>
+      <input type="text" id="views-shortcut-input" maxlength="1" />
     </div>
 
     <h3 data-he="אודות" data-en="About"></h3>
-    <p data-he="דף הבית הזה נוצר בשביל הנוחות, בעיקר כדי לנצל את המקום הריק בכרטיסיה החדשה של כרום." data-en="This homepage was created for convenience, mainly to utilize the empty space in Chrome's new tab."></p>
-    <label data-he="לדיווח תקלות או הצעות שיפור, אנא מלאו את הטופס הבא:" data-en="For bug reports or improvement suggestions, please fill out the following form:"></label>
-    <a href="https://forms.gle/WVxDscmxrHZ55x1T9" target="_blank" data-he="דיווח על באגים" data-en="Report Bugs"></a></br>
+    <p data-he="דף הבית הזה נוצר בשביל הנוחות, בעיקר כדי לנצל את המקום הריק בכרטיסיה החדשה של כרום."
+      data-en="This homepage was created for convenience, mainly to utilize the empty space in Chrome's new tab."></p>
+    <label data-he="לדיווח תקלות או הצעות שיפור, אנא מלאו את הטופס הבא:"
+      data-en="For bug reports or improvement suggestions, please fill out the following form:"></label>
+    <a href="https://forms.gle/WVxDscmxrHZ55x1T9" target="_blank" data-he="דיווח על באגים"
+      data-en="Report Bugs"></a></br>
     <label data-he="קוד המקור זמין ב-GitHub:" data-en="The source code is available on GitHub:"></label>
     <a href="https://github.com/ShaharYemini/homePage" target="_blank" data-he="GitHub" data-en="GitHub"></a></br>
-    <label data-he="גרסה 2.0" data-en="Version 2.0"></label>
+    <label data-he="גרסה 2.1" data-en="Version 2.1"></label>
 
 
   </div>
 
-  <!-- Task list container -->
-  <div class="tasks-container">
-    <h1 data-he="משימות להיום 🗓️" data-en="🗓️ My Tasks Today"></h1>
-    <ul class="tasks" id="task-list"></ul>
-    <button id="show-new-task-form" data-he="הוסף משימה חדשה 📝" data-en="📝 Add New Task"></button>
-    <div class="new-task-form" display="none">
-      <input id="new-task-title" type="text" data-he="כותרת" data-en="title" placeholder="כותרת">
-      <textarea id="new-task-notes" data-he="הערות" data-en="notes" aria-label="הערות"></textarea>
-      <button id="add-task-btn" data-he="צור משימה" data-en="Add Task"></button>
+  <div id="toggleTabBtn" onclick="changeTab()">👉</div>
+
+  <div id="chart-container-2">
+    <canvas id="tasksChart2" width="1200px"></canvas>
+  </div>
+
+  <div id="tab-container">
+    <!-- Task list container -->
+    <div id="tasks-container" class="active-tab">
+      <div id="tasks-counter"></div>
+      <h1 data-he="משימות להיום 🗓️" data-en="🗓️ My Tasks Today"></h1>
+      <div class="toggle-switch" id="lists-toggle-switch"></div>
+      <ul class="tasks" id="task-list"></ul>
+      <button id="show-new-task-form" onclick="handleShowTaskForm()" data-he="הוסף משימה חדשה 📝"
+        data-en="📝 Add New Task"></button>
+      <div id="new-task-form" display="none">
+        <div class="row-container">
+          <input id="new-task-title" type="text" data-he="כותרת" data-en="title" placeholder="כותרת">
+          <label class="custom-checkbox">
+            <span data-he="משימה חוזרת" data-en="recurring task"></span>
+            <input type="checkbox" id="show-reccuring-task-form" onchange="toggleRecurringTaskFormVisibility()" />
+            <span class="checkmark"></span>
+          </label>
+        </div>
+        <textarea id="new-task-notes" data-he="הערות" data-en="notes" aria-label="הערות"></textarea>
+        <div id="recurring-task-form" class="hidden">
+          <div id="weekdays-checkboxes" class="row-container"></div>
+        </div>
+        <div class="row-container" id="new-task-form-buttons">
+          <button id="close-new-task-form" onclick="hideNewTaskForm()" data-he="סגור ↪" data-en="Close ↪"></button>
+          <button id="add-task-btn" onclick="addTask()" data-he="צור משימה" data-en="Add Task"></button>
+        </div>
+      </div>
+      <div id="task-sentence"></div>
     </div>
-    
+
+    <!-- Chart -->
+    <div id="chart-container">
+      <canvas id="tasksChart" width="800px"></canvas>
+      <label id="chart-slider-label">חלק לשעות: 1</label>
+      <input type="range" id="chart-slider" min="1" max="8" step="1">
+    </div>
   </div>
 
   <!-- Quick links section -->
@@ -114,12 +197,26 @@
       <span class="task-desc"></span>
       <input type="text" class="edit-title">
       <textarea class="edit-notes"></textarea>
-      <button class="edit-btn">✏️</button>
+      <div class="note-toggle hidden">⬆</div>
+      <div class="menu-btn">☰</div>
+      <div class="hover-area"></div>
+      <div class="edit-btn">✏️</div>
+      <div class="discard-btn">🗑️</div>
     </li>
+  </template>
+
+  <template id="weekday-checkbox-template">
+    <label class="mini custom-checkbox">
+      <span class="text-span-checkbox"></span>
+      <input type="checkbox" />
+      <span class="checkmark"></span>
+    </label>
   </template>
 
   <!-- JS Scripts -->
   <script src="script.js"></script>
   <script src="https://accounts.google.com/gsi/client" async defer onload="gsiLoaded()"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </body>
+
 </html>
